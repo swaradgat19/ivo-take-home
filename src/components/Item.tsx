@@ -13,6 +13,9 @@ const checkType = (type?: string, parentType?: string): keyof ReactHTML => {
   if (type === "block") {
     return "div";
   }
+  if (type === "clause") {
+    return "p";
+  }
   return type as keyof ReactHTML;
 };
 
@@ -30,7 +33,7 @@ const getMarksStyles = (
   let styles: any = {};
 
   if (display === "inline") {
-    // styles.display = "inline";
+    styles.display = "inline";
   }
 
   if (backgroundColor === "white") {
@@ -104,7 +107,6 @@ export const Item = (props: ItemProps) => {
         <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
           {children ? (
             children.map((child: ItemProps, index: number) => {
-              console.log(child, newParentType, type);
               return (
                 <Item
                   {...child}
