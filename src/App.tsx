@@ -1,9 +1,5 @@
-import React, { ReactHTML } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import jsonData from "./data/input.json";
-import { Element } from "./components/ElementRenderer";
-import { ItemProps } from "./types/types";
 import { Item } from "./components/Item";
 
 function App() {
