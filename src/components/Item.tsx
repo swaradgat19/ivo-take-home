@@ -79,49 +79,27 @@ export const Item = (props: ItemProps) => {
   let HtmlElement: keyof ReactHTML;
   HtmlElement = checkType(type, newParentType);
 
+  const ChildElement = (
+    <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
+      {children ? (
+        children.map((child: ItemProps, index: number) => (
+          <Item
+            {...child}
+            childNumber={index}
+            key={child.title} // Assuming each child has a unique title
+            parentType={newParentType}
+            mentionsMap={mentionsMap}
+          />
+        ))
+      ) : (
+        <>{text}</>
+      )}
+    </HtmlElement>
+  );
+
   if (type === "mention" && id && !(id in mentionsMap)) {
     console.log("Adding to mentionsMap", id);
-    mentionsMap[id] = (
-      <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
-        {children ? (
-          children.map((child: ItemProps, index: number) => (
-            <Item
-              {...child}
-              childNumber={index}
-              key={child.title} // Assuming each child has a unique title
-              parentType={newParentType}
-              mentionsMap={mentionsMap}
-            />
-          ))
-        ) : (
-          <>{text}</>
-        )}
-      </HtmlElement>
-    );
+    mentionsMap[id] = ChildElement;
   }
-  return (
-    <>
-      {id && id in mentionsMap ? (
-        mentionsMap?.[id]
-      ) : (
-        <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
-          {children ? (
-            children.map((child: ItemProps, index: number) => {
-              return (
-                <Item
-                  {...child}
-                  childNumber={index}
-                  key={title}
-                  parentType={newParentType}
-                  mentionsMap={mentionsMap}
-                />
-              );
-            })
-          ) : (
-            <>{text}</>
-          )}
-        </HtmlElement>
-      )}
-    </>
-  );
+  return <>{id && id in mentionsMap ? mentionsMap?.[id] : ChildElement}</>;
 };
