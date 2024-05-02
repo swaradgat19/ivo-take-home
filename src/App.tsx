@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactHTML } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import jsonData from "./data/input.json";
+import { Element } from "./components/ElementRenderer";
+import { ItemProps } from "./types/types";
+import { Item } from "./components/Item";
 
 function App() {
+  const documentData = jsonData;
+
+  const mentionsMap: {
+    [key: string]: JSX.Element;
+  } = {};
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {documentData.map((item) => {
+        return (
+          <Item
+            {...item}
+            key={item.title}
+            parentType="div"
+            mentionsMap={mentionsMap}
+          />
+        );
+      })}
     </div>
   );
 }

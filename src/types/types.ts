@@ -9,4 +9,9 @@ export interface ItemProps {
     underline?: boolean;
     variableType?: string;
     text?: string;
+    parentType?: string;
+    childNumber?: number;
+    mentionsMap : {
+        [key: string]: JSX.Element;
+    };
 }
