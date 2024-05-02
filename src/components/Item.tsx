@@ -76,7 +76,7 @@ export const Item = (props: ItemProps) => {
   let HtmlElement: keyof ReactHTML;
   HtmlElement = checkType(type, newParentType);
 
-  if (type === "mention" && id) {
+  if (type === "mention" && id && !(id in mentionsMap)) {
     console.log("Adding to mentionsMap", id);
     mentionsMap[id] = (
       <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
@@ -87,6 +87,7 @@ export const Item = (props: ItemProps) => {
               childNumber={index}
               key={child.title} // Assuming each child has a unique title
               parentType={newParentType}
+              mentionsMap={mentionsMap}
             />
           ))
         ) : (
@@ -97,7 +98,7 @@ export const Item = (props: ItemProps) => {
   }
   return (
     <>
-      {id && id in (mentionsMap ?? {}) ? (
+      {id && id in mentionsMap ? (
         mentionsMap?.[id]
       ) : (
         <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
