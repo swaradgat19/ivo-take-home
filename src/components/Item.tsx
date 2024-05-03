@@ -14,7 +14,7 @@ const checkType = (type?: string, parentType?: string): keyof ReactHTML => {
     return "div";
   }
   if (type === "clause") {
-    return "p";
+    return "li";
   }
   return type as keyof ReactHTML;
 };
@@ -80,21 +80,43 @@ export const Item = (props: ItemProps) => {
   HtmlElement = checkType(type, newParentType);
 
   const ChildElement = (
-    <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
-      {children ? (
-        children.map((child: ItemProps, index: number) => (
-          <Item
-            {...child}
-            childNumber={index}
-            key={child.title} // Assuming each child has a unique title
-            parentType={newParentType}
-            mentionsMap={mentionsMap}
-          />
-        ))
+    <>
+      {type === "clause" ? (
+        <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
+          <ol>
+            {children ? (
+              children.map((child: ItemProps, index: number) => (
+                <Item
+                  {...child}
+                  childNumber={index}
+                  key={child.title} // Assuming each child has a unique title
+                  parentType={newParentType}
+                  mentionsMap={mentionsMap}
+                />
+              ))
+            ) : (
+              <>{text}</>
+            )}
+          </ol>
+        </HtmlElement>
       ) : (
-        <>{text}</>
+        <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
+          {children ? (
+            children.map((child: ItemProps, index: number) => (
+              <Item
+                {...child}
+                childNumber={index}
+                key={child.title} // Assuming each child has a unique title
+                parentType={newParentType}
+                mentionsMap={mentionsMap}
+              />
+            ))
+          ) : (
+            <>{text}</>
+          )}
+        </HtmlElement>
       )}
-    </HtmlElement>
+    </>
   );
 
   if (type === "mention" && id && !(id in mentionsMap)) {

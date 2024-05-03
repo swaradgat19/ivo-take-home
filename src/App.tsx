@@ -11,16 +11,18 @@ function App() {
 
   return (
     <div className="App">
-      {documentData.map((item) => {
-        return (
-          <Item
-            {...item}
-            key={item.title}
-            parentType="div"
-            mentionsMap={mentionsMap}
-          />
-        );
-      })}
+      <ol>
+        {documentData.map((item) => {
+          return (
+            <Item
+              {...item}
+              key={item.title}
+              parentType="div"
+              mentionsMap={mentionsMap}
+            />
+          );
+        })}
+      </ol>
     </div>
   );
 }
