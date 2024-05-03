@@ -83,7 +83,7 @@ export const Item = (props: ItemProps) => {
     <>
       {type === "clause" ? (
         <HtmlElement style={getMarksStyles(bold, underline, color, type)}>
-          <ol>
+          <ol type="A">
             {children ? (
               children.map((child: ItemProps, index: number) => (
                 <Item
